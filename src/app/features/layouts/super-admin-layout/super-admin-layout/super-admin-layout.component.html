@@ -1,0 +1,144 @@
+<div class="super-admin-layout">
+  <!-- =====================================
+       LEFT SIDEBAR
+  ====================================== -->
+  <aside class="sidebar">
+    <!-- Logo -->
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <i class="bi bi-grid-1x2-fill"></i>
+      </div>
+
+      <div class="brand-text">
+        <strong>WorkSphere</strong>
+        <small>Super Admin Portal</small>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="sidebar-menu">
+      <p class="menu-label">MAIN MENU</p>
+
+      <!-- Dashboard -->
+      <a
+        routerLink="/super-admin/dashboard"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
+        <i class="bi bi-grid"></i>
+
+        <span>Dashboard</span>
+      </a>
+
+      <!-- Onboard Tenant -->
+      <a
+        routerLink="/super-admin/onboard-tenant"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
+        <i class="bi bi-building-add"></i>
+
+        <span>Onboard Tenant</span>
+      </a>
+
+      <!-- Tenant Credentials -->
+      <!-- <a
+        routerLink="/super-admin/tenant-credentials"
+        routerLinkActive="active"
+        class="sidebar-link"
+      >
+        <i class="bi bi-key"></i>
+
+        <span>Tenant Credentials</span>
+      </a> -->
+    </div>
+
+    <!-- Sidebar Bottom -->
+    <div class="sidebar-bottom">
+      <div class="logged-user">
+        <div class="user-avatar">SA</div>
+
+        <div>
+          <strong>Super Admin</strong>
+          <small>Platform Administrator</small>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =====================================
+       RIGHT SIDE
+  ====================================== -->
+  <div class="main-section">
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <div class="header-title">
+        <h5>WorkSphere Administration</h5>
+
+        <small> Manage your workforce management platform </small>
+      </div>
+
+      <!-- Profile -->
+      <div class="dropdown">
+        <button
+          class="profile-btn dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <div class="header-avatar">SA</div>
+
+          <div class="profile-details">
+            <strong>Super Admin</strong>
+
+            <small> Administrator </small>
+          </div>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+          <li>
+            <a class="dropdown-item" href="javascript:void(0)">
+              <i class="bi bi-person"></i>
+              My Profile
+            </a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" href="javascript:void(0)">
+              <i class="bi bi-pencil-square"></i>
+              Update Profile
+            </a>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+
+          <li>
+            <button
+              type="button"
+              class="dropdown-item logout-btn"
+              (click)="logout()"
+            >
+              <i class="bi bi-box-arrow-right"></i>
+              Logout
+            </button>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- =====================================
+         PAGE CONTENT
+    ====================================== -->
+
+    <main class="page-content">
+      <!--
+        Dashboard / Onboard Tenant /
+        Tenant Credentials will load here
+      -->
+
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

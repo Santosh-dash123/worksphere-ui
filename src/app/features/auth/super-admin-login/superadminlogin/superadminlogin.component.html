@@ -1,0 +1,107 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <!-- Brand -->
+
+    <div class="auth-brand">
+      <div class="brand-icon">
+        <i class="bi bi-grid-1x2-fill"></i>
+      </div>
+
+      <div>
+        <h3>WorkSphere</h3>
+
+        <span> Workforce Management Platform </span>
+      </div>
+    </div>
+
+    <!-- Login Header -->
+
+    <div class="login-header">
+      <span class="login-badge"> SECURE ACCESS </span>
+
+      <h1>Super Admin Login</h1>
+
+      <p>Sign in to manage tenants and the WorkSphere platform.</p>
+    </div>
+
+    <!-- Error Message -->
+
+    @if (errorMessage) {
+      <div class="alert alert-danger">
+        <i class="bi bi-exclamation-circle me-2"></i>
+
+        {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Form -->
+
+    <form (ngSubmit)="login()">
+      <!-- Email -->
+
+      <div class="mb-3">
+        <label class="form-label"> Email Address </label>
+
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-envelope"></i>
+          </span>
+
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Enter your email"
+            [(ngModel)]="email"
+            name="email"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Password -->
+
+      <div class="mb-4">
+        <label class="form-label"> Password </label>
+
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-lock"></i>
+          </span>
+
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Enter your password"
+            [(ngModel)]="password"
+            name="password"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Proceed -->
+
+      <button type="submit" class="btn btn-primary w-100 btn-proceed">
+        <i class="bi bi-arrow-right-circle me-2"></i>
+
+        Proceed
+      </button>
+    </form>
+
+    <!-- Demo Credentials -->
+
+    <div class="demo-credentials">
+      <small>
+        <strong>Demo Access</strong>
+
+        <br />
+
+        Email: superadmin&#64;worksphere.com
+
+        <br />
+
+        Password: 123456
+      </small>
+    </div>
+  </div>
+</div>
