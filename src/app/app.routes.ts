@@ -4,6 +4,7 @@ import { SuperadminloginComponent } from './features/auth/super-admin-login/supe
 import { SuperAdminLayoutComponent } from './features/layouts/super-admin-layout/super-admin-layout/super-admin-layout.component';
 import { DashboardComponent } from './features/super-admin/dashboard/dashboard/dashboard.component';
 import { OnboardTenantComponent } from './features/super-admin/onboard-tenant/onboard-tenant/onboard-tenant.component';
+import { TenantCredentialsComponent } from './features/super-admin/tenant-credentials/tenant-credentials/tenant-credentials.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
       {
         path: 'onboard-tenant',
         component: OnboardTenantComponent,
+      },
+      {
+        path: 'tenant-credentials',
+        component: TenantCredentialsComponent,
       },
     ],
   },
