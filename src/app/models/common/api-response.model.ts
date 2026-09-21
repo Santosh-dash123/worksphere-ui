@@ -7,5 +7,6 @@ export interface ApiResponse<T> {
 export interface ApiSingleResponse<T> {
   success: boolean;
   message: string | null;
-  data: T | null;
+  token: string | null;
+  users: T | null;
 }

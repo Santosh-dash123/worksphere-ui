@@ -5,6 +5,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { SuperAdminAuthService } from '../../../../core/services/Auth/superadminauth.service';
 @Component({
   selector: 'app-super-admin-layout',
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
@@ -12,13 +13,13 @@ import {
   styleUrl: './super-admin-layout.component.css',
 })
 export class SuperAdminLayoutComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private superadminauthservice: SuperAdminAuthService,
+  ) {}
 
   logout(): void {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userEmail');
-
-    this.router.navigate(['/']);
+    this.superadminauthservice.logout();
+    this.router.navigateByUrl('/superadminlogin');
   }
 }

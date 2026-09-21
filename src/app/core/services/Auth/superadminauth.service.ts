@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import {
+  SuperAdminLoginData,
   SuperAdminLoginRequest,
   SuperAdminLoginResponse,
   SuperAdminUser,
@@ -12,8 +13,8 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class SuperAdminAuthService {
-  currentUser = signal<SuperAdminUser | null>(
-    JSON.parse(localStorage.getItem('worksphere_user') || ''),
+  currentUser = signal<SuperAdminLoginData | null>(
+    JSON.parse(localStorage.getItem('worksphere_user') || 'null'),
   );
   constructor(private http: HttpClient) {}
 
@@ -25,14 +26,14 @@ export class SuperAdminAuthService {
       )
       .pipe(
         tap((response) => {
-          if (response.success && response.data) {
-            localStorage.setItem('worksphere_token', response.data.token);
+          if (response.success && response.users) {
+            localStorage.setItem('worksphere_token', response.token || '');
             localStorage.setItem(
               'worksphere_user',
-              JSON.stringify(response.data),
+              JSON.stringify(response.users),
             );
 
-            this.currentUser.set(response.data.users);
+            this.currentUser.set(response.users);
           }
         }),
       );
