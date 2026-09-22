@@ -5,6 +5,7 @@ import { SuperAdminLayoutComponent } from './features/layouts/super-admin-layout
 import { DashboardComponent } from './features/super-admin/dashboard/dashboard/dashboard.component';
 import { OnboardTenantComponent } from './features/super-admin/onboard-tenant/onboard-tenant/onboard-tenant.component';
 import { TenantCredentialsComponent } from './features/super-admin/tenant-credentials/tenant-credentials/tenant-credentials.component';
+import { SuperAdminGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,7 @@ export const routes: Routes = [
   },
   {
     path: 'super-admin',
+    canActivate: [SuperAdminGuard],
     component: SuperAdminLayoutComponent,
     children: [
       {

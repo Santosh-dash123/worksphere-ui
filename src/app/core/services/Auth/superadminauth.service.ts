@@ -8,15 +8,20 @@ import {
 import { API_ENDPOINTS } from '../../constants/api-endpoints';
 import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { AuthStorageService } from './auth-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SuperAdminAuthService {
-  currentUser = signal<SuperAdminLoginData | null>(
-    JSON.parse(localStorage.getItem('worksphere_user') || 'null'),
-  );
-  constructor(private http: HttpClient) {}
+  currentUser = signal<SuperAdminLoginData | null>(null);
+
+  constructor(
+    private http: HttpClient,
+    private authstorageservice: AuthStorageService,
+  ) {
+    this.currentUser.set(this.authstorageservice.getUser());
+  }
 
   login(request: SuperAdminLoginRequest): Observable<SuperAdminLoginResponse> {
     return this.http
@@ -27,12 +32,8 @@ export class SuperAdminAuthService {
       .pipe(
         tap((response) => {
           if (response.success && response.users) {
-            localStorage.setItem('worksphere_token', response.token || '');
-            localStorage.setItem(
-              'worksphere_user',
-              JSON.stringify(response.users),
-            );
-
+            this.authstorageservice.setToken(response.token || '');
+            this.authstorageservice.setUser(response.users);
             this.currentUser.set(response.users);
           }
         }),
@@ -40,8 +41,7 @@ export class SuperAdminAuthService {
   }
 
   logout() {
-    localStorage.removeItem('worksphere_token');
-    localStorage.removeItem('worksphere_user');
+    this.authstorageservice.clear();
     this.currentUser.set(null);
   }
 }
