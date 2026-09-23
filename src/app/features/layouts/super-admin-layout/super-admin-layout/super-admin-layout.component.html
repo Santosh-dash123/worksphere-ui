@@ -53,11 +53,13 @@
     <!-- Sidebar Bottom -->
     <div class="sidebar-bottom">
       <div class="logged-user">
-        <div class="user-avatar">SA</div>
+        <div class="user-avatar">{{ getUserInitialsChar() }}</div>
 
         <div>
-          <strong>Super Admin</strong>
-          <small>Platform Administrator</small>
+          <strong>{{
+            superadminauthservice.currentUser()?.users?.fullName
+          }}</strong>
+          <small>Super Admin</small>
         </div>
       </div>
     </div>
@@ -80,12 +82,16 @@
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <div class="header-avatar">SA</div>
+          <div class="header-avatar">{{ getUserInitialsChar() }}</div>
 
           <div class="profile-details">
-            <strong>Super Admin</strong>
+            <strong>{{
+              superadminauthservice.currentUser()?.users?.fullName
+            }}</strong>
 
-            <small> Administrator </small>
+            <strong>{{
+              superadminauthservice.currentUser()?.users?.email
+            }}</strong>
           </div>
         </button>
 

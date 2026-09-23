@@ -15,8 +15,25 @@ import { SuperAdminAuthService } from '../../../../core/services/Auth/superadmin
 export class SuperAdminLayoutComponent {
   constructor(
     private router: Router,
-    private superadminauthservice: SuperAdminAuthService,
+    public superadminauthservice: SuperAdminAuthService,
   ) {}
+
+  getUserInitialsChar(): string {
+    const name = this.superadminauthservice.currentUser()?.users?.fullName;
+
+    if (!name) {
+      return 'SA';
+    }
+
+    return name
+      .trim()
+      .split(' ')
+      .filter((x) => x.length > 0)
+      .map((x) => x.charAt(0))
+      .join('')
+      .substring(0, 2)
+      .toUpperCase();
+  }
 
   logout(): void {
     this.superadminauthservice.logout();
