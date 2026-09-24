@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SuperAdminLoginData } from '../../../models/auth/super-admin-login.model';
+import { SuperAdminUser } from '../../../models/auth/super-admin-login.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +16,13 @@ export class AuthStorageService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  setUser(user: SuperAdminLoginData): void {
+  setUser(user: SuperAdminUser): void {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
   }
 
-  getUser(): SuperAdminLoginData | null {
+  getUser(): SuperAdminUser | null {
     const user = localStorage.getItem(this.USER_KEY);
+
     return user ? JSON.parse(user) : null;
   }
 

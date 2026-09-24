@@ -13,9 +13,4 @@ export interface SuperAdminUser {
   mobileNo: string;
 }
 
-export interface SuperAdminLoginData {
-  token: string;
-  users: SuperAdminUser;
-}
-
-export type SuperAdminLoginResponse = ApiSingleResponse<SuperAdminLoginData>;
+export type SuperAdminLoginResponse = ApiSingleResponse<SuperAdminUser>;

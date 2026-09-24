@@ -19,7 +19,7 @@ export class SuperAdminLayoutComponent {
   ) {}
 
   getUserInitialsChar(): string {
-    const name = this.superadminauthservice.currentUser()?.users?.fullName;
+    const name = this.superadminauthservice.currentUser()?.fullName;
 
     if (!name) {
       return 'SA';

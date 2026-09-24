@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import {
-  SuperAdminLoginData,
   SuperAdminLoginRequest,
   SuperAdminLoginResponse,
   SuperAdminUser,
@@ -14,7 +13,7 @@ import { AuthStorageService } from './auth-storage.service';
   providedIn: 'root',
 })
 export class SuperAdminAuthService {
-  currentUser = signal<SuperAdminLoginData | null>(null);
+  currentUser = signal<SuperAdminUser | null>(null);
 
   constructor(
     private http: HttpClient,

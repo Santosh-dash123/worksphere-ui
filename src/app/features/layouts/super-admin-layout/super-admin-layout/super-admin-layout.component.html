@@ -56,9 +56,7 @@
         <div class="user-avatar">{{ getUserInitialsChar() }}</div>
 
         <div>
-          <strong>{{
-            superadminauthservice.currentUser()?.users?.fullName
-          }}</strong>
+          <strong>{{ superadminauthservice.currentUser()?.fullName }}</strong>
           <small>Super Admin</small>
         </div>
       </div>
@@ -85,13 +83,9 @@
           <div class="header-avatar">{{ getUserInitialsChar() }}</div>
 
           <div class="profile-details">
-            <strong>{{
-              superadminauthservice.currentUser()?.users?.fullName
-            }}</strong>
+            <strong>{{ superadminauthservice.currentUser()?.fullName }}</strong>
 
-            <strong>{{
-              superadminauthservice.currentUser()?.users?.email
-            }}</strong>
+            <strong>{{ superadminauthservice.currentUser()?.email }}</strong>
           </div>
         </button>
 
