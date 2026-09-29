@@ -1,8 +1,4 @@
 <div class="container-fluid p-0">
-  <!-- =====================================
-       PAGE HEADER
-  ====================================== -->
-
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h2 class="ws-page-title mb-1">Onboard Tenant</h2>
@@ -13,17 +9,9 @@
     </div>
   </div>
 
-  <!-- =====================================
-       TENANT FORM
-  ====================================== -->
-
   <div class="card ws-card shadow-sm">
     <div class="card-body p-4 p-lg-5">
-      <form (ngSubmit)="saveTenant()">
-        <!-- =====================================
-             COMPANY INFORMATION
-        ====================================== -->
-
+      <form #tenantFormRef="ngForm" (ngSubmit)="saveTenant()" novalidate>
         <div class="mb-4">
           <h5 class="ws-section-title mb-1">Company Information</h5>
 
@@ -33,8 +21,6 @@
         </div>
 
         <div class="row g-3 mb-4">
-          <!-- Company Name -->
-
           <div class="col-md-6">
             <label for="companyName" class="form-label ws-form-label">
               Company Name
@@ -47,12 +33,10 @@
               name="companyName"
               class="form-control"
               placeholder="Enter company name"
-              [(ngModel)]="companyName"
+              [(ngModel)]="tenantForm.companyName"
               required
             />
           </div>
-
-          <!-- Company Email -->
 
           <div class="col-md-6">
             <label for="companyEmail" class="form-label ws-form-label">
@@ -66,12 +50,10 @@
               name="companyEmail"
               class="form-control"
               placeholder="company@example.com"
-              [(ngModel)]="companyEmail"
+              [(ngModel)]="tenantForm.companyEmail"
               required
             />
           </div>
-
-          <!-- Phone Number -->
 
           <div class="col-md-6">
             <label for="phoneNumber" class="form-label ws-form-label">
@@ -84,12 +66,13 @@
               id="phoneNumber"
               name="phoneNumber"
               class="form-control"
-              placeholder="Enter phone number"
-              [(ngModel)]="phoneNumber"
+              placeholder="Enter 10 digit phone number"
+              maxlength="10"
+              inputmode="numeric"
+              [(ngModel)]="tenantForm.phoneNumber"
+              required
             />
           </div>
-
-          <!-- Registration Certificate -->
 
           <div class="col-md-6">
             <label
@@ -105,22 +88,19 @@
               id="registrationCertificate"
               name="registrationCertificate"
               class="form-control"
-              accept=".pdf,.jpg,.jpeg,.png"
+              accept=".pdf,application/pdf"
               (change)="onRegistrationCertificateSelected($event)"
               required
             />
 
             <div class="form-text">
-              Upload company registration certificate (PDF, JPG, PNG).
+              Upload company registration certificate in PDF format. Maximum
+              size: 5 MB.
             </div>
           </div>
         </div>
 
         <hr class="my-4" />
-
-        <!-- =====================================
-             COMPANY ADDRESS
-        ====================================== -->
 
         <div class="mb-4">
           <h5 class="ws-section-title mb-1">Company Address</h5>
@@ -131,11 +111,10 @@
         </div>
 
         <div class="row g-3 mb-4">
-          <!-- Address -->
-
           <div class="col-12">
             <label for="address" class="form-label ws-form-label">
               Address
+              <span class="text-danger">*</span>
             </label>
 
             <textarea
@@ -144,17 +123,13 @@
               class="form-control"
               rows="3"
               placeholder="Enter company address"
-              [(ngModel)]="address"
-            >
-            </textarea>
+              [(ngModel)]="tenantForm.address"
+              required
+            ></textarea>
           </div>
         </div>
 
         <hr class="my-4" />
-
-        <!-- =====================================
-             PRIMARY CONTACT
-        ====================================== -->
 
         <div class="mb-4">
           <h5 class="ws-section-title mb-1">Primary Contact</h5>
@@ -165,8 +140,6 @@
         </div>
 
         <div class="row g-3 mb-4">
-          <!-- Contact Person -->
-
           <div class="col-md-4">
             <label for="contactPersonName" class="form-label ws-form-label">
               Contact Person
@@ -179,12 +152,10 @@
               name="contactPersonName"
               class="form-control"
               placeholder="Enter full name"
-              [(ngModel)]="contactPersonName"
+              [(ngModel)]="tenantForm.contactPersonName"
               required
             />
           </div>
-
-          <!-- Contact Email -->
 
           <div class="col-md-4">
             <label for="contactEmail" class="form-label ws-form-label">
@@ -198,16 +169,15 @@
               name="contactEmail"
               class="form-control"
               placeholder="contact@example.com"
-              [(ngModel)]="contactEmail"
+              [(ngModel)]="tenantForm.contactEmail"
               required
             />
           </div>
 
-          <!-- Contact Phone -->
-
           <div class="col-md-4">
             <label for="contactPhone" class="form-label ws-form-label">
               Contact Phone
+              <span class="text-danger">*</span>
             </label>
 
             <input
@@ -215,31 +185,40 @@
               id="contactPhone"
               name="contactPhone"
               class="form-control"
-              placeholder="Enter phone number"
-              [(ngModel)]="contactPhone"
+              placeholder="Enter 10 digit phone number"
+              maxlength="10"
+              inputmode="numeric"
+              [(ngModel)]="tenantForm.contactPhone"
+              required
             />
           </div>
         </div>
-
-        <!-- =====================================
-             BUTTONS
-        ====================================== -->
 
         <div class="d-flex justify-content-end gap-2 border-top pt-4">
           <button
             type="button"
             class="btn btn-outline-secondary"
             (click)="resetForm()"
+            [disabled]="isSubmitting"
           >
             <i class="bi bi-arrow-counterclockwise me-1"></i>
-
             Reset
           </button>
 
-          <button type="submit" class="btn btn-ws-primary px-4">
-            <i class="bi bi-check-circle me-1"></i>
+          <button
+            type="submit"
+            class="btn btn-ws-primary px-4"
+            [disabled]="isSubmitting"
+          >
+            @if (isSubmitting) {
+              <span class="spinner-border spinner-border-sm me-1"></span>
 
-            Create Tenant
+              Saving...
+            } @else {
+              <i class="bi bi-check-circle me-1"></i>
+
+              Create Tenant
+            }
           </button>
         </div>
       </form>

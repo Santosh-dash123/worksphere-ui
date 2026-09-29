@@ -6,4 +6,8 @@ export const API_ENDPOINTS = {
   auth: {
     superAdminLogin: `${environment.apiUrl}/Auth/SuperAdminLogin`,
   },
+
+  tenant: {
+    saveTenant: `${environment.apiUrl}/SuperAdmin/SaveTenant`,
+  },
 };
