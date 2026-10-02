@@ -10,9 +10,6 @@ import { FormsModule } from '@angular/forms';
 })
 export class TenantCredentialsComponent {
   tenantId: number | null = null;
-  userTypeId: number | null = null;
-  departmentId: number | null = null;
-  parentUserId: number | null = null;
 
   fullName: string = '';
   emailAddress: string = '';
@@ -79,9 +76,6 @@ export class TenantCredentialsComponent {
   saveCredentials(): void {
     const credentialData = {
       TenantId: this.tenantId,
-      UserTypeId: this.userTypeId,
-      DepartmentId: this.departmentId,
-      ParentUserId: this.parentUserId,
       FullName: this.fullName,
       EmailAddress: this.emailAddress,
       Password: this.password,
@@ -96,9 +90,6 @@ export class TenantCredentialsComponent {
 
   resetForm(): void {
     this.tenantId = null;
-    this.userTypeId = null;
-    this.departmentId = null;
-    this.parentUserId = null;
 
     this.fullName = '';
     this.emailAddress = '';
