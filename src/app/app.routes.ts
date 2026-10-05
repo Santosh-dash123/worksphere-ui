@@ -6,6 +6,7 @@ import { DashboardComponent } from './features/super-admin/dashboard/dashboard/d
 import { OnboardTenantComponent } from './features/super-admin/onboard-tenant/onboard-tenant/onboard-tenant.component';
 import { TenantCredentialsComponent } from './features/super-admin/tenant-credentials/tenant-credentials/tenant-credentials.component';
 import { SuperAdminGuard } from './core/guards/auth.guard';
+import { OnboardTenantListComponent } from './features/super-admin/onboard-tenant/onboard-tenant-list/onboard-tenant-list.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,10 @@ export const routes: Routes = [
       {
         path: 'onboard-tenant',
         component: OnboardTenantComponent,
+      },
+      {
+        path: 'onboard-tenant-list',
+        component: OnboardTenantListComponent,
       },
       {
         path: 'tenant-credentials',

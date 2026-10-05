@@ -9,5 +9,6 @@ export const API_ENDPOINTS = {
 
   tenant: {
     saveTenant: `${environment.apiUrl}/SuperAdmin/SaveTenant`,
+    getTenant: `${environment.apiUrl}/SuperAdmin/GetTenant`,
   },
 };
