@@ -1,1 +1,516 @@
-<p>onboard-tenant-list works!</p>
+<div class="container-fluid p-0">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="ws-page-title mb-1">Tenant List</h2>
+      <p class="ws-page-subtitle mb-0">
+        Manage all onboarded tenant companies.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-ws-primary"
+      (click)="loadTenants()"
+      [disabled]="isLoading"
+    >
+      @if (isLoading) {
+        <span class="spinner-border spinner-border-sm me-1"></span>
+        Loading...
+      } @else {
+        <i class="bi bi-arrow-clockwise me-1"></i>
+        Refresh
+      }
+    </button>
+  </div>
+
+  <div class="card ws-card shadow-sm">
+    <div class="card-body p-0">
+      @if (isLoading) {
+        <div class="text-center py-5">
+          <div class="spinner-border"></div>
+          <div class="mt-2 text-muted">Loading tenants...</div>
+        </div>
+      } @else if (tenants.length === 0) {
+        <div class="text-center py-5">
+          <i class="bi bi-building fs-1 text-muted"></i>
+          <h5 class="mt-3">No Tenants Found</h5>
+          <p class="text-muted mb-0">No tenant records are available.</p>
+        </div>
+      } @else {
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Tenant Code</th>
+                <th>Company Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Contact Person</th>
+                <th>Status</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (tenant of tenants; track tenant.id; let i = $index) {
+                <tr>
+                  <td>{{ i + 1 }}</td>
+
+                  <td>
+                    <span class="fw-semibold">
+                      {{ tenant.tenantCode }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="fw-semibold">
+                      {{ tenant.companyName }}
+                    </div>
+                  </td>
+
+                  <td>
+                    {{ tenant.companyEmail || "-" }}
+                  </td>
+
+                  <td>
+                    {{ tenant.companyPhone || "-" }}
+                  </td>
+
+                  <td>
+                    {{ tenant.contactPersonName || "-" }}
+                  </td>
+
+                  <td>
+                    @if (tenant.isActive) {
+                      <span class="badge bg-success"> Active </span>
+                    } @else {
+                      <span class="badge bg-secondary"> Inactive </span>
+                    }
+                  </td>
+
+                  <td>
+                    <div class="d-flex justify-content-center gap-1">
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-primary"
+                        title="View Details"
+                        (click)="viewDetails(tenant.id)"
+                      >
+                        <i class="bi bi-eye"></i>
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-warning"
+                        title="Edit"
+                        (click)="editTenant(tenant.id)"
+                      >
+                        <i class="bi bi-pencil"></i>
+                      </button>
+
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-danger"
+                        title="Delete"
+                        (click)="deleteTenant(tenant)"
+                      >
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+@if (showDetailsModal && selectedTenant) {
+  <div class="modal-backdrop-custom">
+    <div class="custom-modal custom-modal-lg">
+      <div class="custom-modal-header">
+        <div>
+          <h5 class="mb-1">Tenant Details</h5>
+          <small class="text-muted">
+            {{ selectedTenant.tenantCode }}
+          </small>
+        </div>
+
+        <button
+          type="button"
+          class="btn-close"
+          (click)="closeDetailsModal()"
+        ></button>
+      </div>
+
+      <div class="custom-modal-body">
+        <div class="mb-4">
+          <h6 class="section-title">Company Information</h6>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="details-label">Tenant Code</label>
+            <div class="details-value">
+              {{ selectedTenant.tenantCode }}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="details-label">Company Name</label>
+            <div class="details-value">
+              {{ selectedTenant.companyName }}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="details-label">Company Email</label>
+            <div class="details-value">
+              {{ selectedTenant.companyEmail || "-" }}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="details-label">Company Phone</label>
+            <div class="details-value">
+              {{ selectedTenant.companyPhone || "-" }}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label class="details-label">Company Address</label>
+            <div class="details-value">
+              {{ selectedTenant.companyAddress || "-" }}
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="mb-4">
+          <h6 class="section-title">Primary Contact</h6>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="details-label">Contact Person</label>
+            <div class="details-value">
+              {{ selectedTenant.contactPersonName }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="details-label">Contact Email</label>
+            <div class="details-value">
+              {{ selectedTenant.contactPersonEmail }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="details-label">Contact Phone</label>
+            <div class="details-value">
+              {{ selectedTenant.contactPersonMobile }}
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="details-label">Status</label>
+            <div>
+              @if (selectedTenant.isActive) {
+                <span class="badge bg-success"> Active </span>
+              } @else {
+                <span class="badge bg-secondary"> Inactive </span>
+              }
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="details-label">Created Date</label>
+            <div class="details-value">
+              {{ selectedTenant.createdDate | date: "dd-MM-yyyy HH:mm" }}
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label class="details-label">Modified Date</label>
+            <div class="details-value">
+              @if (selectedTenant.modifiedDate) {
+                {{ selectedTenant.modifiedDate | date: "dd-MM-yyyy HH:mm" }}
+              } @else {
+                -
+              }
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label class="details-label"> Registration Certificate </label>
+
+            <div>
+              @if (selectedTenant.registrationCertificate) {
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  (click)="
+                    openCertificate(selectedTenant.registrationCertificate)
+                  "
+                >
+                  <i class="bi bi-file-earmark-pdf me-1"></i>
+                  View Certificate
+                </button>
+              } @else {
+                <span class="text-muted"> Not available </span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="closeDetailsModal()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (showEditModal) {
+  <div class="modal-backdrop-custom">
+    <div class="custom-modal custom-modal-xl">
+      <div class="custom-modal-header">
+        <div>
+          <h5 class="mb-1">Edit Tenant</h5>
+          <small class="text-muted"> Update tenant information </small>
+        </div>
+
+        <button
+          type="button"
+          class="btn-close"
+          (click)="closeEditModal()"
+          [disabled]="isSubmitting"
+        ></button>
+      </div>
+
+      <div class="custom-modal-body">
+        <form #tenantEditForm="ngForm" (ngSubmit)="updateTenant()" novalidate>
+          <div class="mb-4">
+            <h6 class="section-title mb-1">Company Information</h6>
+
+            <p class="text-muted small mb-0">Update company information.</p>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label for="editCompanyName" class="form-label ws-form-label">
+                Company Name
+                <span class="text-danger">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="editCompanyName"
+                name="editCompanyName"
+                class="form-control"
+                placeholder="Enter company name"
+                [(ngModel)]="tenantForm.companyName"
+                required
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label for="editCompanyEmail" class="form-label ws-form-label">
+                Company Email
+                <span class="text-danger">*</span>
+              </label>
+
+              <input
+                type="email"
+                id="editCompanyEmail"
+                name="editCompanyEmail"
+                class="form-control"
+                placeholder="company@example.com"
+                [(ngModel)]="tenantForm.companyEmail"
+                required
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label for="editPhoneNumber" class="form-label ws-form-label">
+                Phone Number
+                <span class="text-danger">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="editPhoneNumber"
+                name="editPhoneNumber"
+                class="form-control"
+                placeholder="Enter 10 digit phone number"
+                maxlength="10"
+                inputmode="numeric"
+                [(ngModel)]="tenantForm.phoneNumber"
+                required
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label
+                for="editRegistrationCertificate"
+                class="form-label ws-form-label"
+              >
+                Registration Certificate
+              </label>
+
+              <input
+                type="file"
+                id="editRegistrationCertificate"
+                name="editRegistrationCertificate"
+                class="form-control"
+                accept=".pdf,application/pdf"
+                (change)="onRegistrationCertificateSelected($event)"
+              />
+
+              <div class="form-text">
+                Leave empty to keep the existing certificate.
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <div class="mb-4">
+            <h6 class="section-title mb-1">Company Address</h6>
+
+            <p class="text-muted small mb-0">
+              Update registered company address.
+            </p>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-12">
+              <label for="editAddress" class="form-label ws-form-label">
+                Address
+                <span class="text-danger">*</span>
+              </label>
+
+              <textarea
+                id="editAddress"
+                name="editAddress"
+                class="form-control"
+                rows="3"
+                placeholder="Enter company address"
+                [(ngModel)]="tenantForm.address"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <div class="mb-4">
+            <h6 class="section-title mb-1">Primary Contact</h6>
+
+            <p class="text-muted small mb-0">
+              Update primary contact information.
+            </p>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label
+                for="editContactPersonName"
+                class="form-label ws-form-label"
+              >
+                Contact Person
+                <span class="text-danger">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="editContactPersonName"
+                name="editContactPersonName"
+                class="form-control"
+                placeholder="Enter full name"
+                [(ngModel)]="tenantForm.contactPersonName"
+                required
+              />
+            </div>
+
+            <div class="col-md-4">
+              <label for="editContactEmail" class="form-label ws-form-label">
+                Contact Email
+                <span class="text-danger">*</span>
+              </label>
+
+              <input
+                type="email"
+                id="editContactEmail"
+                name="editContactEmail"
+                class="form-control"
+                placeholder="contact@example.com"
+                [(ngModel)]="tenantForm.contactEmail"
+                required
+              />
+            </div>
+
+            <div class="col-md-4">
+              <label for="editContactPhone" class="form-label ws-form-label">
+                Contact Phone
+                <span class="text-danger">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="editContactPhone"
+                name="editContactPhone"
+                class="form-control"
+                placeholder="Enter 10 digit phone number"
+                maxlength="10"
+                inputmode="numeric"
+                [(ngModel)]="tenantForm.contactPhone"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 border-top pt-4 mt-4">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="closeEditModal()"
+              [disabled]="isSubmitting"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-ws-primary px-4"
+              [disabled]="isSubmitting"
+            >
+              @if (isSubmitting) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+                Updating...
+              } @else {
+                <i class="bi bi-check-circle me-1"></i>
+                Update Tenant
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}
